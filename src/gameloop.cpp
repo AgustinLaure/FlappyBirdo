@@ -128,6 +128,13 @@ void game::GameLoop()
 		default:
 			break;
 		}
+		DrawCircleV({ objects::cursor.positionX, objects::cursor.positionY },15,RED);
+
+		Rectangle playButt = { objects::play.position.x - objects::play.width / 2, objects::play.position.y - objects::play.height / 2, objects::play.width, objects::play.height };
+		Rectangle creditsButt = { objects::credits.position.x - objects::credits.width / 2, objects::credits.position.y - objects::credits.height / 2, objects::credits.width, objects::credits.height };
+
+		DrawRectangleRec(playButt,MAGENTA);
+		DrawRectangleRec(creditsButt,GOLD);
 
 		EndDrawing();
 	}
@@ -140,7 +147,7 @@ void essentials::GetDeltaTime()
 	externs::deltaT = GetFrameTime();
 }
 
-void game::Initialize(player::Bird& bird, obstacle::Obstacle& obstacle, buttons::Button& credits, buttons::Button& play, buttons::Button& exit)
+void game::Initialize(player::Bird& bird, obstacle::Obstacle& obstacle, buttons::Button& play, buttons::Button& credits, buttons::Button& exit)
 {
 	InitWindow(externs::screenWidth, externs::screenHeight, "Flappy Bird");
 
@@ -189,14 +196,6 @@ void game::menu::Update(buttons::Button& play, buttons::Button& credits, buttons
 {
 	objects::UpdateMousePosition(cursor);
 
-	float mousex = GetMousePosition().x;
-	float mousey = GetMousePosition().y;
-
-	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-	{
-		std::cout << cursor.positionX << " , " << cursor.positionY << "\n";
-	}
-
 	Rectangle playButt = { play.position.x - play.width / 2, play.position.y - play.height / 2, play.width, play.height };
 
 	if (CheckCollisionPointRec({ cursor.positionX, cursor.positionY }, playButt))
@@ -213,15 +212,9 @@ void game::menu::Update(buttons::Button& play, buttons::Button& credits, buttons
 		play.text.color = GRAY;
 	}
 
-
-	if (IsKeyPressed(KEY_C))
-	{
-		currentState = state::State::Play;
-	}
-
 	Rectangle creditsButt = { credits.position.x - credits.width / 2, credits.position.y - credits.height / 2, credits.width, credits.height };
 
-	if (CheckCollisionPointRec({ mousex, mousey }, creditsButt))
+	if (CheckCollisionPointRec({ cursor.positionX, cursor.positionY }, creditsButt))
 	{
 		credits.text.color = WHITE;
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
