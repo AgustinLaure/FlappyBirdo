@@ -52,7 +52,7 @@ namespace game
 	void Update();
 	void Draw();
 
-	static bool CheckCollisions(player::Bird bird, obstacle::Obstacle obstacle);
+	static bool CheckCollisionsCircleRectangle(float circleX, float circleY, float recX, float recY, float width, float height);
 	static void DrawCurrentVer();
 
 	namespace menu
@@ -179,7 +179,9 @@ void game::Update()
 	player::Update(objects::bird);
 	obstacle::Update(objects::obstacle);
 
-	if (game::CheckCollisions(objects::bird, objects::obstacle))
+	if (game::CheckCollisionsCircleRectangle(objects::bird.position.x, objects::bird.position.y, objects::obstacle.bottom.x,
+		objects::obstacle.bottom.y, objects::obstacle.width, objects::obstacle.height) || game::CheckCollisionsCircleRectangle
+		(objects::bird.position.x, objects::bird.position.y, objects::obstacle.top.x, objects::obstacle.top.y, objects::obstacle.width, objects::obstacle.height))
 	{
 		CloseWindow();
 	}
@@ -265,19 +267,12 @@ void game::credits::Draw(buttons::Button& returnButton)
 	buttons::Draw(returnButton);
 }
 
-bool game::CheckCollisions(player::Bird bird, obstacle::Obstacle obstacle)
+bool game::CheckCollisionsCircleRectangle(float circleX, float circleY, float recX, float recY, float width, float height)
 {
 	const float circleRadius = 30.0f;
-	float circleX = bird.position.x;
-	float circleY = bird.position.y;
 
-	float rectX = obstacle.bottom.x;
-	float rectY = obstacle.bottom.y;
-	float rectWidth = obstacle.width;
-	float rectHeight = obstacle.height;
-
-	float closestX = std::max(rectX, std::min(circleX, rectX + rectWidth));
-	float closestY = std::max(rectY, std::min(circleY, rectY + rectHeight));
+	float closestX = std::max(recX, std::min(circleX, recX + width));
+	float closestY = std::max(recY, std::min(circleY, recY + height));
 
 	float distanceX = circleX - closestX;
 	float distanceY = circleY - closestY;
