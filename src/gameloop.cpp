@@ -48,9 +48,9 @@ namespace game
 	}
 	state::State gameState = state::State::Menu;
 
-	void Initialize(buttons::Button& credits, buttons::Button& play, buttons::Button& exit, Texture& tempTexture, int& backgroundFrontTextureID, int& backgroundMiddleTextureID, int& backgroundBackTextureID);
-	void Update();
-	void Draw();
+	static void Initialize(buttons::Button& credits, buttons::Button& play, buttons::Button& exit, Texture& tempTexture, int& backgroundFrontTextureID, int& backgroundMiddleTextureID, int& backgroundBackTextureID);
+	static void Update();
+	static void Draw();
 
 	static bool CheckCollisionsCircleRectangle(float circleX, float circleY, float recX, float recY, float width, float height);
 	static void DrawCurrentVer();
@@ -79,8 +79,8 @@ namespace assets
 		static float scrollingMid = 0.0f;
 		static float scrollingFront = 0.0f;
 
-		void Update();
-		void Draw();
+		static void Update();
+		static void Draw();
 	}
 }
 
@@ -206,6 +206,13 @@ void game::Update()
 	{
 		game::gameState = game::state::State::Menu;
 		externs::retry = true;
+	}
+
+	if (externs::hasLost)
+	{
+		externs::retry = true;
+		externs::hasLost = false;
+		game::gameState = game::state::State::Menu;
 	}
 }
 

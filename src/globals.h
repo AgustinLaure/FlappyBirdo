@@ -9,6 +9,7 @@ namespace externs
 	extern int screenHeight;
 
 	extern bool retry;
+	extern bool hasLost;
 
 	extern std::string backgroundFrontTexture;
 	extern int backgroundFrontTextureID;

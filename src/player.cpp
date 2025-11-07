@@ -55,7 +55,7 @@ void player::CheckState(Bird& bird)
 {
 	if (HasLost(bird))
 	{
-		std::cout << "You lost!\n";
+		externs::hasLost = true;
 	}
 	if (IsTouchingCeiling(bird))
 	{
