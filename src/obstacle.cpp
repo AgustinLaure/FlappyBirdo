@@ -26,7 +26,11 @@ void obstacle::Update(Obstacle& obstacle)
 	obstacle.bottom.x += -obstacle.velocity * externs::deltaT;
 	obstacle.top.x = obstacle.bottom.x;
 
-	obstacle::CheckOutOfBounds(obstacle);
+	if (obstacle::CheckOutOfBounds(obstacle))
+	{
+		obstacle.bottom = { static_cast<float>(externs::screenWidth) - obstacle.width, static_cast<float>(GetRandomValue(0, externs::screenHeight / 2)) - obstacle.height };
+		obstacle.top = { obstacle.bottom.x, static_cast<float>(-(GetRandomValue(externs::screenHeight / 2, externs::screenHeight)) + obstacle.height) - variables::offSet };
+	}
 }
 
 void obstacle::Draw(Obstacle obstacle)
@@ -35,10 +39,7 @@ void obstacle::Draw(Obstacle obstacle)
 	DrawRectangle(static_cast<int>(obstacle.top.x), static_cast<int>(obstacle.top.y), static_cast<int>(obstacle.width), static_cast<int>(obstacle.height), RED);
 }
 
-void obstacle::CheckOutOfBounds(Obstacle& obstacle)
+bool obstacle::CheckOutOfBounds(Obstacle& obstacle)
 {
-	if (obstacle.bottom.x + obstacle.width < 0.0f)
-	{
-		obstacle.bottom.x = externs::screenWidth + obstacle.width;
-	}
+	return (obstacle.bottom.x + obstacle.width < 0.0f);		
 }

@@ -9,6 +9,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{3cc6b2ec-2d28-4f42-87d1-b4c6f86f6a71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -18,9 +21,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\globals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\utils.cpp">
@@ -35,15 +35,15 @@
     <ClCompile Include="src\button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gameloop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils.h">
@@ -60,6 +60,9 @@
     </ClInclude>
     <ClInclude Include="src\button.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player.h">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

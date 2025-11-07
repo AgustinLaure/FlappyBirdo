@@ -20,5 +20,5 @@ namespace obstacle
 	void Update(Obstacle& obstacle);
 	void Draw(Obstacle obstacle);
 
-	void CheckOutOfBounds(Obstacle& obstacle);
+	bool CheckOutOfBounds(Obstacle& obstacle);
 }

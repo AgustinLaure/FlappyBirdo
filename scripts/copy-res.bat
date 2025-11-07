@@ -1,0 +1,1 @@
+xcopy "%~1res\" "%~2res\" /E /I /Y
