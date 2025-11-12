@@ -489,7 +489,7 @@ bool game::CheckCollisionsCircleRectangle(float circleX, float circleY, float re
 
 void game::DrawCurrentVer()
 {
-	assets::version.text = "ver 0.3";
+	assets::version.text = "ver 0.4";
 	assets::version.posX = 95.0f;
 	assets::version.posY = 98.0f;
 	assets::version.color = BLACK;
