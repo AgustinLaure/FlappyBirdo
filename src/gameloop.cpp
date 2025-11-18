@@ -54,6 +54,9 @@ namespace Game
 			static Player::Bird bird1;
 			static Player::Bird bird2;
 			static Obstacle::Obstacle obstacle;
+
+			static Buttons::Button retryButton;
+			static Buttons::Button exitButton;
 		}
 
 		enum class Playstyle
@@ -154,7 +157,6 @@ namespace Game
 						(Objects::bird1.position.x, Objects::bird1.position.y, Objects::obstacle.top.x, Objects::obstacle.top.y, Objects::obstacle.width, Objects::obstacle.height))
 					{
 						Objects::bird1.isOn = false;
-						Externs::retry = true;
 					}
 				}
 
@@ -165,7 +167,6 @@ namespace Game
 						(Objects::bird2.position.x, Objects::bird2.position.y, Objects::obstacle.top.x, Objects::obstacle.top.y, Objects::obstacle.width, Objects::obstacle.height))
 					{
 						Objects::bird2.isOn = false;
-						Externs::retry = true;
 					}
 				}
 
@@ -186,17 +187,59 @@ namespace Game
 
 				if (Externs::hasLost)
 				{
-					Externs::retry = true;
 					Externs::hasLost = false;
-					currentState = State::Menu;
-					currentScene = GameplayScene::ReadingRules;
+					currentScene = GameplayScene::Finished;
 				}
 				break;
 
 			case GameplayScene::Pause:
-				break;
 
 			case GameplayScene::Finished:
+
+				Essentials::UpdateMousePosition();
+
+				if (CheckCollisionPointRec({ Essentials::Objects::cursor.positionX, Essentials::Objects::cursor.positionY }, { Objects::retryButton.position.x - Objects::retryButton.width / 2, Objects::retryButton.position.y - Objects::retryButton.height / 2, Objects::retryButton.width, Objects::retryButton.height }))
+				{
+					Objects::retryButton.text.color = WHITE;
+
+					if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+					{
+						Externs::retry = true;
+						currentScene = GameplayScene::Playing;
+					}
+				}
+				else
+				{
+					Objects::retryButton.text.color = GRAY;
+				}
+
+				if (CheckCollisionPointRec({ Essentials::Objects::cursor.positionX, Essentials::Objects::cursor.positionY }, { Objects::exitButton.position.x - Objects::exitButton.width / 2, Objects::exitButton.position.y - Objects::exitButton.height / 2, Objects::exitButton.width, Objects::exitButton.height }))
+				{
+					Objects::exitButton.text.color = WHITE;
+
+					if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+					{
+						currentState = State::Menu;
+						Externs::retry = true;
+						currentScene = GameplayScene::ReadingRules;
+					}
+				}
+				else
+				{
+					Objects::exitButton.text.color = GRAY;
+				}
+
+				if (Externs::retry)
+				{
+					Player::Initialization(Playing::Objects::bird1, KEY_W, { static_cast<float>(Externs::screenWidth) / 6.0f, static_cast<float>(Externs::screenHeight) / 2.0f });
+					Player::Initialization(Playing::Objects::bird2, KEY_UP, { static_cast<float>(Externs::screenWidth) / 5.0f, static_cast<float>(Externs::screenHeight) / 2.0f });
+					Obstacle::Initialization(Playing::Objects::obstacle);
+
+					Externs::retry = false;
+				}
+
+				break;
+
 				break;
 
 			default:
@@ -277,7 +320,8 @@ namespace Game
 				break;
 
 			case Playing::GameplayScene::Finished:
-
+				Buttons::Draw(Objects::retryButton);
+				Buttons::Draw(Objects::exitButton);
 				break;
 
 			default:
@@ -362,7 +406,6 @@ namespace Game
 
 			Rectangle exitButt = { Objects::exit.position.x - Objects::exit.width / 2, Objects::exit.position.y - Objects::exit.height / 2,Objects::exit.width, Objects::exit.height };
 
-
 			if (CheckCollisionPointRec({ Essentials::Objects::cursor.positionX, Essentials::Objects::cursor.positionY }, exitButt))
 			{
 				Objects::exit.text.color = WHITE;
@@ -422,11 +465,12 @@ namespace Game
 			{
 				Essentials::UpdateMousePosition();
 
-				Rectangle exitButt = { Objects::returnButton.position.x - Objects::returnButton.width / 2, Objects::returnButton.position.y - Objects::returnButton.height / 2, Objects::returnButton.width, Objects::returnButton.height };
+				Rectangle returnButton = { Objects::returnButton.position.x - Objects::returnButton.width / 2, Objects::returnButton.position.y - Objects::returnButton.height / 2, Objects::returnButton.width, Objects::returnButton.height };
 
-				if (CheckCollisionPointRec({ Essentials::Objects::cursor.positionX, Essentials::Objects::cursor.positionY }, exitButt))
+				if (CheckCollisionPointRec({ Essentials::Objects::cursor.positionX, Essentials::Objects::cursor.positionY }, returnButton))
 				{
 					Objects::returnButton.text.color = WHITE;
+
 					if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
 					{
 						currentState = State::Menu;
@@ -464,7 +508,7 @@ namespace Game
 				Draw::DrawText(credits1);
 				Draw::DrawText(credits2);
 				Draw::DrawText(credits3);
-				Buttons::Draw(Menu::Objects::exit);
+				Buttons::Draw(Objects::returnButton);
 				DrawCurrentVer();
 			}
 		}
@@ -543,6 +587,9 @@ namespace Game
 		Menu::Objects::exit.text.text = "EXIT";
 		Buttons::Initialize(Menu::Objects::exit, buttonWidth, buttonHeight, buttonCenterX, 55.0f);
 
+		Menu::Credits::Objects::returnButton.text.text = "EXIT";
+		Buttons::Initialize(Menu::Credits::Objects::returnButton, buttonWidth, buttonHeight, buttonCenterX, 55.0f);
+
 		Assets::Parallax::tempTexture = LoadTexture(Externs::backgroundFrontTexture.c_str());
 		Externs::backgroundFrontTextureID = Assets::Parallax::tempTexture.id;
 
@@ -551,6 +598,16 @@ namespace Game
 
 		Assets::Parallax::tempTexture = LoadTexture(Externs::backgroundBackTexture.c_str());
 		Externs::backgroundBackTextureID = Assets::Parallax::tempTexture.id;
+
+		Player::Initialization(Playing::Objects::bird1, KEY_W, { static_cast<float>(Externs::screenWidth) / 6.0f, static_cast<float>(Externs::screenHeight) / 2.0f });
+		Player::Initialization(Playing::Objects::bird2, KEY_UP, { static_cast<float>(Externs::screenWidth) / 5.0f, static_cast<float>(Externs::screenHeight) / 2.0f });
+		Obstacle::Initialization(Playing::Objects::obstacle);
+
+		Playing::Objects::exitButton.text.text = "EXIT";
+		Buttons::Initialize(Playing::Objects::exitButton, buttonWidth, buttonHeight, buttonCenterX - 10, 80.0f);
+
+		Playing::Objects::retryButton.text.text = "RETRY";
+		Buttons::Initialize(Playing::Objects::retryButton, buttonWidth, buttonHeight, buttonCenterX + 10, 80.0f);
 	}
 
 	void GameLoop()
@@ -558,9 +615,6 @@ namespace Game
 		InitWindow(Externs::screenWidth, Externs::screenHeight, "Flappy Bird");
 
 		Initialize();
-		Player::Initialization(Playing::Objects::bird1, KEY_W, { static_cast<float>(Externs::screenWidth) / 6.0f, static_cast<float>(Externs::screenHeight) / 2.0f });
-		Player::Initialization(Playing::Objects::bird2, KEY_UP, { static_cast<float>(Externs::screenWidth) / 5.0f, static_cast<float>(Externs::screenHeight) / 2.0f });
-		Obstacle::Initialization(Playing::Objects::obstacle);
 
 		while (!WindowShouldClose() && currentState != State::Exit)
 		{
@@ -570,14 +624,6 @@ namespace Game
 
 				Menu::Update();
 
-				if (Externs::retry)
-				{
-					Player::Initialization(Playing::Objects::bird1, KEY_W, { static_cast<float>(Externs::screenWidth) / 6.0f, static_cast<float>(Externs::screenHeight) / 2.0f });
-					Player::Initialization(Playing::Objects::bird2, KEY_UP, { static_cast<float>(Externs::screenWidth) / 5.0f, static_cast<float>(Externs::screenHeight) / 2.0f });
-					Obstacle::Initialization(Playing::Objects::obstacle);
-
-					Externs::retry = false;
-				}
 				break;
 
 			case State::Playing:
