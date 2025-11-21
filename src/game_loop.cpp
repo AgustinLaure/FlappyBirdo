@@ -599,6 +599,7 @@ namespace Game
 
 		void Draw()
 		{
+			DrawText("BAT ADVENTURE",Externs::screenWidth/2- MeasureText("BAT ADVENTURE", 50)/2, Externs::screenHeight / 2-240, 50, BLACK);
 			Buttons::Draw(Objects::singleplayer);
 			Buttons::Draw(Objects::multiplayer);
 			Buttons::Draw(Objects::credits);
@@ -663,29 +664,79 @@ namespace Game
 			void Draw()
 			{
 				Text::Text credits1;
-				credits1.text = "Made by Eluney Jazmin Mousseigne";
-				credits1.posX = 50;
+				credits1.text = "Programmed by:           Eluney Jazmin Mousseigne";
+				credits1.posX = 25;
 				credits1.posY = 20;
-				credits1.fontSize = 40;
+				credits1.fontSize = 24;
 				credits1.color = BLACK;
 
 				Text::Text credits2;
 				credits2.text = "&";
 				credits2.posX = 50;
-				credits2.posY = 30;
-				credits2.fontSize = 40;
+				credits2.posY = 20;
+				credits2.fontSize = 30;
 				credits2.color = BLACK;
 
 				Text::Text credits3;
 				credits3.text = "Agustin Ezequiel Laure";
-				credits3.posX = 50;
-				credits3.posY = 40;
-				credits3.fontSize = 40;
+				credits3.posX = 64;
+				credits3.posY = 20;
+				credits3.fontSize = 24;
 				credits3.color = BLACK;
 
+				Text::Text credits4;
+				credits4.text = "Assets by: ";
+				credits4.posX = 12;
+				credits4.posY = 40;
+				credits4.fontSize = 24;
+				credits4.color = BLACK;
+
+				Text::Text credits5;
+				credits5.text = "-Vittorio Dolce";
+				credits5.posX = 37;
+				credits5.posY = 40;
+				credits5.fontSize = 30;
+				credits5.color = BLACK;
+
+				Text::Text credits6;
+				credits6.text = "-Pixabay - Sound effects";
+				credits6.posX = 70;
+				credits6.posY = 40;
+				credits6.fontSize = 30;
+				credits6.color = BLACK;
+
+				Text::Text credits7;
+				credits7.text = "-Ateliermagicae - Itchio";
+				credits7.posX = 38;
+				credits7.posY = 60;
+				credits7.fontSize = 30;
+				credits7.color = BLACK;
+
+				Text::Text credits8;
+				credits8.text = "-Duxmusic - Itchio";
+				credits8.posX = 69;
+				credits8.posY = 60;
+				credits8.fontSize = 30;
+				credits8.color = BLACK;
+
+				Text::Text credits9;
+				credits9.text = "-Kashdanmusic - Itchio";
+				credits9.posX = 51;
+				credits9.posY = 77;
+				credits9.fontSize = 30;
+				credits9.color = BLACK;
+
+
+
 				Draw::DrawText(credits1);
-				Draw::DrawText(credits2);
 				Draw::DrawText(credits3);
+				Draw::DrawText(credits2);
+				Draw::DrawText(credits4);
+				Draw::DrawText(credits5);
+				Draw::DrawText(credits6);
+				Draw::DrawText(credits7);
+				Draw::DrawText(credits8);
+				Draw::DrawText(credits9);
 				Buttons::Draw(Objects::returnButton);
 				DrawCurrentVer();
 			}
@@ -709,26 +760,26 @@ namespace Game
 	void Initialize()
 	{
 		float buttonWidth = 25.0f;
-		float buttonHeight = 8.0f;
+		float buttonHeight = 10.0f;
 		float buttonCenterX = 50.0f;
 
 		//play.text.font = externs::defaultText.font;
 		Menu::Objects::singleplayer.text.text = "SINGLEPLAYER";
-		Buttons::Initialize(Menu::Objects::singleplayer, buttonWidth, buttonHeight, buttonCenterX, 25.0f);
+		Buttons::Initialize(Menu::Objects::singleplayer, buttonWidth, buttonHeight, buttonCenterX ,  25.0f + 20);
 
 		Menu::Objects::multiplayer.text.text = "MULTIPLAYER";
-		Buttons::Initialize(Menu::Objects::multiplayer, buttonWidth, buttonHeight, buttonCenterX, 35.0f);
+		Buttons::Initialize(Menu::Objects::multiplayer, buttonWidth, buttonHeight , buttonCenterX , 35.0f + 20);
 
 		//credits.text.font = externs::defaultText.font;
 		Menu::Objects::credits.text.text = "CREDITS";
-		Buttons::Initialize(Menu::Objects::credits, buttonWidth, buttonHeight, buttonCenterX, 45.0f);
+		Buttons::Initialize(Menu::Objects::credits, buttonWidth, buttonHeight, buttonCenterX , 45.0f + 20);
 
 		//exit.text.font = externs::defaultText.font;
 		Menu::Objects::exit.text.text = "EXIT";
-		Buttons::Initialize(Menu::Objects::exit, buttonWidth, buttonHeight, buttonCenterX, 55.0f);
+		Buttons::Initialize(Menu::Objects::exit, buttonWidth, buttonHeight , buttonCenterX , 55.0f + 20);
 
 		Menu::Credits::Objects::returnButton.text.text = "EXIT";
-		Buttons::Initialize(Menu::Credits::Objects::returnButton, buttonWidth, buttonHeight, buttonCenterX, 55.0f);
+		Buttons::Initialize(Menu::Credits::Objects::returnButton, buttonWidth, buttonHeight, buttonCenterX+40, 55.0f+25);
 
 		Player::Initialization(Playing::Objects::bird1, WHITE, KEY_W, { static_cast<float>(Externs::screenWidth) / 6.0f, static_cast<float>(Externs::screenHeight) / 2.0f });
 		Player::Initialization(Playing::Objects::bird2, RED, KEY_UP, { static_cast<float>(Externs::screenWidth) / 5.0f, static_cast<float>(Externs::screenHeight) / 2.0f });
@@ -738,7 +789,7 @@ namespace Game
 		Buttons::Initialize(Playing::Objects::exitButton, buttonWidth, buttonHeight, buttonCenterX - 14, 80.0f);
 
 		Playing::Objects::retryButton.text.text = "RETRY";
-		Buttons::Initialize(Playing::Objects::retryButton, buttonWidth, buttonHeight, buttonCenterX + 14, 80.0f);
+		Buttons::Initialize(Playing::Objects::retryButton, buttonWidth, buttonHeight , buttonCenterX + 14, 80.0f);
 
 		Playing::Objects::resumeButton.text.text = "RESUME";
 		Buttons::Initialize(Playing::Objects::resumeButton, buttonWidth, buttonHeight, buttonCenterX + 10, 80.0f);
